@@ -60,6 +60,7 @@ module.exports = [
     },
     rules: {
       ...require('@typescript-eslint/eslint-plugin').configs.recommended.rules,
+      '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
