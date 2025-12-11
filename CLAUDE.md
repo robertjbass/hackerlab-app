@@ -2,7 +2,13 @@
 
 This file provides guidance to AI agents such as Claude Code (claude.ai/code) when working with code in this repository.
 
+
+## Conventions:
+Use the @ alias for src/ directory
+`import { User } from '@/collections/User'`
+
 ## Database
+
 
 **Query Optimization**:
 - Limited query depth (`maxDepth: 2` in collection configs, higher depths used in queries when needed)
@@ -12,8 +18,7 @@ This file provides guidance to AI agents such as Claude Code (claude.ai/code) wh
 - Use `pnpm analyze:queries` to monitor query sizes and performance
 
 **Database**:
-- PostgreSQL 16.2 on Neon with connection pooling
-- Database branching for preview deployments
+- PostgreSQL 17.7
 - Custom migrations in `src/migrations/`
 
 ### PayloadCMS Query Optimization with `populate`

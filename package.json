@@ -14,6 +14,7 @@
     "prep": "pnpm codegen && pnpm migrate:create",
     "codegen": "pnpm payload generate:importMap && pnpm payload generate:types",
     "migrate:create": "payload migrate:create",
+    "ci": "payload migrate && pnpm run build",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --no-experimental-strip-types\" pnpm exec playwright test",
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
