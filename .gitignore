@@ -48,3 +48,17 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+
+
+# MCP configuration
+mcp.json
+.mcp.json
+mcp_config.json
+.mcp_config.json
+.mcp
+.mcp/
+.mcp/*
+
+# Claude Code global config (symlinked for convenience)
+.claude.json
