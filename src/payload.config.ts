@@ -29,6 +29,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  sharp: sharp as any,
+  // @ts-ignore - sharp types mismatch with PayloadCMS expected types
+  sharp,
   plugins: [],
 })
