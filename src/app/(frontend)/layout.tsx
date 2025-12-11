@@ -1,18 +1,39 @@
-import React from 'react'
-import './styles.css'
+import type { Metadata } from 'next'
+import { Geist, Geist_Mono } from 'next/font/google'
+import '../globals.css'
+import { Header, Footer } from '@/components/layout'
 
-export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
+const geistSans = Geist({
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+})
+
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+})
+
+export const metadata: Metadata = {
+  title: 'DevTools - Developer Tools for Modern Workflows',
+  description:
+    'Premium software tools built by developers, for developers. Streamline your development process.',
 }
 
-export default async function RootLayout(props: { children: React.ReactNode }) {
-  const { children } = props
+type FrontendLayoutProps = {
+  children: React.ReactNode
+}
 
+export default function FrontendLayout({ children }: FrontendLayoutProps) {
   return (
     <html lang="en">
-      <body>
-        <main>{children}</main>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} bg-white antialiased dark:bg-zinc-950`}
+      >
+        <div className="flex min-h-screen flex-col">
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   )
