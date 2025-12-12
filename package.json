@@ -1,7 +1,7 @@
 {
   "name": "hackerlab-app",
   "version": "1.0.0",
-  "description": "A blank template to get started with Payload 3.0",
+  "description": "The web app for HackerLab account management",
   "license": "MIT",
   "type": "module",
   "scripts": {
