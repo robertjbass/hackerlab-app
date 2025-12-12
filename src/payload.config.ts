@@ -6,10 +6,8 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import { authjsPlugin } from 'payload-authjs'
-import { authConfig } from './auth.config'
-
-import { Users } from '@/collections/Users'
-import { Media } from '@/collections/Media'
+import { authConfig } from '@/lib/auth.config'
+import { Users, Media } from '@/collections'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
