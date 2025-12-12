@@ -2,8 +2,8 @@
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.users_sessions": {
-      "name": "users_sessions",
+    "public.users_accounts": {
+      "name": "users_accounts",
       "schema": "",
       "columns": {
         "_order": {
@@ -14,7 +14,7 @@
         },
         "_parent_id": {
           "name": "_parent_id",
-          "type": "integer",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
@@ -24,22 +24,28 @@
           "primaryKey": true,
           "notNull": true
         },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp(3) with time zone",
+        "provider": {
+          "name": "provider",
+          "type": "varchar",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
-        "expires_at": {
-          "name": "expires_at",
-          "type": "timestamp(3) with time zone",
+        "provider_account_id": {
+          "name": "provider_account_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         }
       },
       "indexes": {
-        "users_sessions_order_idx": {
-          "name": "users_sessions_order_idx",
+        "users_accounts_order_idx": {
+          "name": "users_accounts_order_idx",
           "columns": [
             {
               "expression": "_order",
@@ -53,8 +59,8 @@
           "method": "btree",
           "with": {}
         },
-        "users_sessions_parent_id_idx": {
-          "name": "users_sessions_parent_id_idx",
+        "users_accounts_parent_id_idx": {
+          "name": "users_accounts_parent_id_idx",
           "columns": [
             {
               "expression": "_parent_id",
@@ -67,12 +73,27 @@
           "concurrently": false,
           "method": "btree",
           "with": {}
+        },
+        "users_accounts_provider_account_id_idx": {
+          "name": "users_accounts_provider_account_id_idx",
+          "columns": [
+            {
+              "expression": "provider_account_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
-        "users_sessions_parent_id_fk": {
-          "name": "users_sessions_parent_id_fk",
-          "tableFrom": "users_sessions",
+        "users_accounts_parent_id_fk": {
+          "name": "users_accounts_parent_id_fk",
+          "tableFrom": "users_accounts",
           "tableTo": "users",
           "columnsFrom": [
             "_parent_id"
@@ -96,9 +117,33 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "varchar",
           "primaryKey": true,
           "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email_verified": {
+          "name": "email_verified",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image": {
+          "name": "image",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
         },
         "updated_at": {
           "name": "updated_at",
@@ -113,52 +158,24 @@
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
-        },
-        "email": {
-          "name": "email",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "reset_password_token": {
-          "name": "reset_password_token",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "reset_password_expiration": {
-          "name": "reset_password_expiration",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "salt": {
-          "name": "salt",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "hash": {
-          "name": "hash",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "login_attempts": {
-          "name": "login_attempts",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": false,
-          "default": 0
-        },
-        "lock_until": {
-          "name": "lock_until",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": false
         }
       },
       "indexes": {
+        "users_email_idx": {
+          "name": "users_email_idx",
+          "columns": [
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "users_updated_at_idx": {
           "name": "users_updated_at_idx",
           "columns": [
@@ -185,21 +202,6 @@
             }
           ],
           "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "users_email_idx": {
-          "name": "users_email_idx",
-          "columns": [
-            {
-              "expression": "email",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": true,
           "concurrently": false,
           "method": "btree",
           "with": {}
@@ -520,7 +522,7 @@
         },
         "users_id": {
           "name": "users_id",
-          "type": "integer",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
@@ -776,7 +778,7 @@
         },
         "users_id": {
           "name": "users_id",
-          "type": "integer",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": false
         }
@@ -965,6 +967,6 @@
     "tables": {},
     "columns": {}
   },
-  "id": "32059259-94df-4182-9b92-00eb35560d6b",
+  "id": "a7375aaa-52af-4353-a4b8-4ad418bf6d7d",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

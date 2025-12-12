@@ -213,7 +213,7 @@ collectionsJoins: {
     customerVendors: 'customer_vendors_vendor'
     customerDeals: 'customer_deals_deal'
   }
-  users: {
+  user: {
     customers: 'customer'
   }
 }

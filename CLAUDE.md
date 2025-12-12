@@ -5,7 +5,11 @@ This file provides guidance to AI agents such as Claude Code (claude.ai/code) wh
 
 ## Conventions:
 Use the @ alias for src/ directory
-`import { User } from '@/collections/User'`
+`import { Users } from '@/collections/Users'`
+
+## Collections
+- Collections should be singular with 1 exception: users
+- users collection can not be renamed
 
 ## Database
 

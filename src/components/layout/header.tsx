@@ -2,9 +2,17 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Menu, X, Terminal, Github } from 'lucide-react'
+import { Menu, X, Terminal, Github, LogOut } from 'lucide-react'
 
-export function Header() {
+type HeaderProps = {
+  user?: {
+    email?: string | null
+    name?: string | null
+    image?: string | null
+  } | null
+}
+
+export function Header({ user }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
@@ -47,18 +55,37 @@ export function Header() {
           >
             <Github className="h-5 w-5" />
           </Link>
-          <Link
-            href="/auth/login"
-            className="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-          >
-            Sign in
-          </Link>
-          <Link
-            href="/auth/register"
-            className="rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-emerald-500"
-          >
-            Get Started
-          </Link>
+          {user ? (
+            <>
+              <span className="text-sm text-zinc-600 dark:text-zinc-400">
+                {user.name || user.email}
+              </span>
+              <form action="/api/auth/signout" method="POST">
+                <button
+                  type="submit"
+                  className="flex items-center gap-2 text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign out
+                </button>
+              </form>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/auth/login"
+                className="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+              >
+                Sign in
+              </Link>
+              <Link
+                href="/auth/login"
+                className="rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-emerald-500"
+              >
+                Get Started
+              </Link>
+            </>
+          )}
         </div>
         <div className="flex lg:hidden">
           <button
@@ -101,20 +128,40 @@ export function Header() {
               Docs
             </Link>
             <div className="flex items-center gap-4 pt-4">
-              <Link
-                href="/auth/login"
-                className="text-base font-medium text-zinc-600 dark:text-zinc-400"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Sign in
-              </Link>
-              <Link
-                href="/auth/register"
-                className="rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Get Started
-              </Link>
+              {user ? (
+                <>
+                  <span className="text-base text-zinc-600 dark:text-zinc-400">
+                    {user.name || user.email}
+                  </span>
+                  <form action="/api/auth/signout" method="POST">
+                    <button
+                      type="submit"
+                      className="flex items-center gap-2 text-base font-medium text-zinc-600 dark:text-zinc-400"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <LogOut className="h-4 w-4" />
+                      Sign out
+                    </button>
+                  </form>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/auth/login"
+                    className="text-base font-medium text-zinc-600 dark:text-zinc-400"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Sign in
+                  </Link>
+                  <Link
+                    href="/auth/login"
+                    className="rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

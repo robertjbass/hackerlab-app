@@ -121,24 +121,21 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
-  updatedAt: string;
-  createdAt: string;
+  id: string;
   email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
+  emailVerified?: string | null;
+  name?: string | null;
+  image?: string | null;
+  accounts?:
     | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
+        provider: string;
+        providerAccountId: string;
+        type: 'oidc' | 'oauth' | 'email' | 'webauthn';
+        id?: string | null;
       }[]
     | null;
-  password?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -186,7 +183,7 @@ export interface PayloadLockedDocument {
   document?:
     | ({
         relationTo: 'users';
-        value: number | User;
+        value: string | User;
       } | null)
     | ({
         relationTo: 'media';
@@ -195,7 +192,7 @@ export interface PayloadLockedDocument {
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -208,7 +205,7 @@ export interface PayloadPreference {
   id: number;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   key?: string | null;
   value?:
@@ -239,22 +236,21 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  updatedAt?: T;
-  createdAt?: T;
+  id?: T;
   email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
+  emailVerified?: T;
+  name?: T;
+  image?: T;
+  accounts?:
     | T
     | {
+        provider?: T;
+        providerAccountId?: T;
+        type?: T;
         id?: T;
-        createdAt?: T;
-        expiresAt?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
