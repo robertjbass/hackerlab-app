@@ -1,4 +1,4 @@
-# HackerLab App
+# HackerLab Web App
 
 A full-stack developer tools platform built with Next.js and PayloadCMS.
 
@@ -7,7 +7,7 @@ A full-stack developer tools platform built with Next.js and PayloadCMS.
 - **Framework:** Next.js 16 (React 19)
 - **CMS/Backend:** PayloadCMS 3
 - **Database:** PostgreSQL 17
-- **Styling:** Tailwind CSS 4
+- **Styling:** Tailwind CSS 4, shadcn/ui
 - **Language:** TypeScript
 
 ## Prerequisites
@@ -18,32 +18,21 @@ A full-stack developer tools platform built with Next.js and PayloadCMS.
 
 ## Getting Started
 
-1. **Clone the repository**
 
-2. **Install dependencies**
-   ```bash
-   pnpm install
-   ```
+```bash
+pnpm install
 
-3. **Set up environment variables**
-   ```bash
-   cp .env.example .env
-   ```
-   Configure your `.env` file with:
-   - `DATABASE_URI` - PostgreSQL connection string
-   - `PAYLOAD_SECRET` - Secret key for PayloadCMS
+vercel env pull
+mv .env.local .env
 
-4. **Run database migrations**
-   ```bash
-   pnpm payload migrate
-   ```
+# create a new database if needed
+pnpx spindb create hackerlab-app --engine postgresql --version 17
 
-5. **Start the development server**
-   ```bash
-   pnpm dev
-   ```
+# create a new payload secret if needed
+node -e "console.log(\`PAYLOAD_SECRET=\${require('crypto').randomBytes(32).toString('base64')}\")" >> .env
+```
 
-   Open [http://localhost:3000](http://localhost:3000) for the frontend and [http://localhost:3000/admin](http://localhost:3000/admin) for the admin panel.
+Open [http://localhost:3000](http://localhost:3000) for the frontend and [http://localhost:3000/admin](http://localhost:3000/admin) for the admin panel.
 
 ## Project Structure
 
@@ -68,6 +57,7 @@ src/
 | `pnpm lint` | Run ESLint |
 | `pnpm test` | Run all tests |
 | `pnpm prep` | Generate types and migrations |
+| `pnpm add:ui <name>` | Add a shadcn/ui component |
 
 
 # Desktop App Module Breakdown (9 major modules accessible via a sidebar)
@@ -135,4 +125,7 @@ src/
 - Sections: General, Appearance, Storage, Integrations, Notifications, Security
 - Theme selection, auto-start, GitHub integration
 - Toggle switches for preferences
+
+
+
 

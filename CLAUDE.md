@@ -2,10 +2,14 @@
 
 This file provides guidance to AI agents such as Claude Code (claude.ai/code) when working with code in this repository.
 
+## Package Management
+- Always use pnpm and pnpx, never npm and npx
+
 
 ## Conventions:
-Use the @ alias for src/ directory
-`import { Users } from '@/collections/Users'`
+- Use the @ alias for src/ directory: `import { Users } from '@/collections/Users'`
+- Payload collections and database tables will all be singular, except for Users, this is because the users collection is a special collection that is used for authentication and authorization.
+- custom Admin components inside of the Payload admin (`src/components/admin/*`) can not use tailwind css, use custom styles instead. Importing tailwind into the admin panel will break the entire admin panel.
 
 ## Collections
 - Collections should be singular with 1 exception: users
@@ -35,3 +39,104 @@ Use the @ alias for src/ directory
 - `queryPayload()` - Client-side queries
 - Query structure, populate syntax, depth handling, and output structure
 - Collection joins reference and naming patterns
+
+## UI Components (shadcn/ui)
+
+This project uses [shadcn/ui](https://ui.shadcn.com) with Tailwind CSS v4.
+
+### Adding Components
+
+```bash
+pnpm add:ui <component-name>
+```
+
+Examples:
+```bash
+pnpm add:ui button
+pnpm add:ui card dialog
+pnpm add:ui table --overwrite
+```
+
+### Key Files
+
+- `components.json` - shadcn/ui configuration
+- `src/lib/utils.ts` - `cn()` class merging utility
+- `src/lib/theme.ts` - Central color palette configuration
+- `src/components/ui/` - shadcn component directory
+- `src/app/globals.css` - CSS variables (OKLCH colors)
+
+### Color Palette
+
+- **Primary:** Indigo (`--primary`)
+- **Neutrals:** Slate
+- To change the palette, edit `src/lib/theme.ts` for reference values and update `src/app/globals.css` for CSS variables
+
+### Component Patterns
+
+- Use `Button` from `@/components/ui/button` instead of custom button styles
+- Use `Card` for content containers
+- Use `Input` + `Label` for form fields
+- Use `sonner` for toast notifications (not deprecated `toast`)
+- Use semantic color classes: `text-primary`, `bg-muted`, `border-border`, `text-muted-foreground`
+
+### Icons
+
+**Always import icons from `@/components/icons`** - never directly from lucide-react.
+
+```tsx
+import { ArrowRight, Github, Menu, Terminal } from '@/components/icons'
+```
+
+This barrel file:
+- Re-exports lucide icons for UI (Menu, Terminal, ArrowRight, etc.)
+- Contains local SVG backups for brand icons (Github, XIcon)
+
+To add a new icon:
+- Lucide icon: Add to the export list in `src/components/icons/index.tsx`
+- Brand icon: Copy SVG from https://simpleicons.org and create a component
+
+## Code Comments
+
+**Philosophy:** Good code is self-documenting through clear naming and conventions. Comments should be minimal.
+
+**When to comment:**
+- Explain WHY something unintuitive was done (not WHAT)
+- Document non-obvious workarounds or edge cases
+
+**When NOT to comment:**
+- Never restate what a function/variable does when the name is self-explanatory
+- No JSDoc-style comments unless absolutely necessary
+- No file header comments describing what the file contains
+
+**Comment style:**
+```ts
+// Single line for brief explanations
+
+/*
+ * Multi-line ONLY when multiple lines are
+ * absolutely required due to significant context
+ */
+```
+
+**Bad examples:**
+```ts
+// Gets the user by ID (redundant - name already says this)
+function getUserById() {}
+
+/**
+ * Links configuration file
+ * Contains social and external links
+ */  // (unnecessary file header)
+```
+
+**Good examples:**
+```ts
+// Offset by 1 because the API uses 1-based indexing
+const index = position + 1
+
+/*
+ * Using a junction table here instead of a direct relation
+ * because Payload's depth queries become expensive with
+ * nested user data across multiple collections
+ */
+```
