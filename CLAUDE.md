@@ -7,8 +7,9 @@ This file provides guidance to AI agents such as Claude Code (claude.ai/code) wh
 
 
 ## Conventions:
-Use the @ alias for src/ directory
-`import { Users } from '@/collections/Users'`
+- Use the @ alias for src/ directory: `import { Users } from '@/collections/Users'`
+- Payload collections and database tables will all be singular, except for Users, this is because the users collection is a special collection that is used for authentication and authorization.
+- custom Admin components inside of the Payload admin (`src/components/admin/*`) can not use tailwind css, use custom styles instead. Importing tailwind into the admin panel will break the entire admin panel.
 
 ## Collections
 - Collections should be singular with 1 exception: users
