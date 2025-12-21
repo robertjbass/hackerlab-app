@@ -1,4 +1,4 @@
-import { Zap, Shield, Code, GitBranch, Terminal, Boxes } from 'lucide-react'
+import { Boxes, Code, GitBranch, Shield, Terminal, Zap } from '@/components/icons'
 
 const features = [
   {
@@ -39,10 +39,10 @@ export function Features() {
     <section className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Built for developers
           </h2>
-          <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
+          <p className="mt-4 text-lg text-muted-foreground">
             Tools that integrate seamlessly into your development workflow
           </p>
         </div>
@@ -51,14 +51,14 @@ export function Features() {
             {features.map((feature) => (
               <div key={feature.name} className="relative">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/30">
-                    <feature.icon className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                    <feature.icon className="h-5 w-5 text-primary" />
                   </div>
-                  <h3 className="text-base font-semibold text-zinc-900 dark:text-white">
+                  <h3 className="text-base font-semibold text-foreground">
                     {feature.name}
                   </h3>
                 </div>
-                <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">
+                <p className="mt-3 text-sm text-muted-foreground">
                   {feature.description}
                 </p>
               </div>

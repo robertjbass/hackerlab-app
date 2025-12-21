@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Menu, X, Terminal, Github, LogOut } from 'lucide-react'
+import { Github, LogOut, Menu, Terminal, X } from '@/components/icons'
+import { Button } from '@/components/ui/button'
 
 type HeaderProps = {
   user?: {
@@ -16,31 +17,29 @@ export function Header({ user }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950/80">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-sm">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
         <div className="flex items-center gap-x-12">
           <Link href="/" className="flex items-center gap-2">
-            <Terminal className="h-8 w-8 text-emerald-600" />
-            <span className="text-xl font-bold text-zinc-900 dark:text-white">
-              DevTools
-            </span>
+            <Terminal className="h-8 w-8 text-primary" />
+            <span className="text-xl font-bold text-foreground">DevTools</span>
           </Link>
           <div className="hidden lg:flex lg:gap-x-8">
             <Link
               href="/products"
-              className="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               Products
             </Link>
             <Link
               href="/pricing"
-              className="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               Pricing
             </Link>
             <Link
               href="/docs"
-              className="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               Docs
             </Link>
@@ -51,46 +50,40 @@ export function Header({ user }: HeaderProps) {
             href="https://github.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+            className="text-muted-foreground transition-colors hover:text-foreground"
           >
             <Github className="h-5 w-5" />
           </Link>
           {user ? (
             <>
-              <span className="text-sm text-zinc-600 dark:text-zinc-400">
+              <span className="text-sm text-muted-foreground">
                 {user.name || user.email}
               </span>
               <form action="/api/auth/signout" method="POST">
-                <button
-                  type="submit"
-                  className="flex items-center gap-2 text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-                >
-                  <LogOut className="h-4 w-4" />
+                <Button type="submit" variant="ghost" size="sm">
+                  <LogOut className="mr-2 h-4 w-4" />
                   Sign out
-                </button>
+                </Button>
               </form>
             </>
           ) : (
             <>
               <Link
                 href="/auth/login"
-                className="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
                 Sign in
               </Link>
-              <Link
-                href="/auth/login"
-                className="rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-emerald-500"
-              >
-                Get Started
-              </Link>
+              <Button asChild size="sm">
+                <Link href="/auth/login">Get Started</Link>
+              </Button>
             </>
           )}
         </div>
         <div className="flex lg:hidden">
           <button
             type="button"
-            className="text-zinc-600 dark:text-zinc-400"
+            className="text-muted-foreground"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             <span className="sr-only">Toggle menu</span>
@@ -108,21 +101,21 @@ export function Header({ user }: HeaderProps) {
           <div className="space-y-1 px-6 pb-4">
             <Link
               href="/products"
-              className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400"
+              className="block py-2 text-base font-medium text-muted-foreground"
               onClick={() => setMobileMenuOpen(false)}
             >
               Products
             </Link>
             <Link
               href="/pricing"
-              className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400"
+              className="block py-2 text-base font-medium text-muted-foreground"
               onClick={() => setMobileMenuOpen(false)}
             >
               Pricing
             </Link>
             <Link
               href="/docs"
-              className="block py-2 text-base font-medium text-zinc-600 dark:text-zinc-400"
+              className="block py-2 text-base font-medium text-muted-foreground"
               onClick={() => setMobileMenuOpen(false)}
             >
               Docs
@@ -130,36 +123,37 @@ export function Header({ user }: HeaderProps) {
             <div className="flex items-center gap-4 pt-4">
               {user ? (
                 <>
-                  <span className="text-base text-zinc-600 dark:text-zinc-400">
+                  <span className="text-base text-muted-foreground">
                     {user.name || user.email}
                   </span>
                   <form action="/api/auth/signout" method="POST">
-                    <button
+                    <Button
                       type="submit"
-                      className="flex items-center gap-2 text-base font-medium text-zinc-600 dark:text-zinc-400"
+                      variant="ghost"
+                      size="sm"
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      <LogOut className="h-4 w-4" />
+                      <LogOut className="mr-2 h-4 w-4" />
                       Sign out
-                    </button>
+                    </Button>
                   </form>
                 </>
               ) : (
                 <>
                   <Link
                     href="/auth/login"
-                    className="text-base font-medium text-zinc-600 dark:text-zinc-400"
+                    className="text-base font-medium text-muted-foreground"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Sign in
                   </Link>
-                  <Link
-                    href="/auth/login"
-                    className="rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white"
+                  <Button
+                    asChild
+                    size="sm"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Get Started
-                  </Link>
+                    <Link href="/auth/login">Get Started</Link>
+                  </Button>
                 </>
               )}
             </div>
