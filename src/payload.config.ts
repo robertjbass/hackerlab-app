@@ -65,6 +65,6 @@ export default buildConfig({
       },
       token: BLOB_READ_WRITE_TOKEN,
     }),
-    authjsPlugin({ authjsConfig: authConfig }),
+    authjsPlugin({ authjsConfig: authConfig, enableLocalStrategy: true }),
   ],
 })

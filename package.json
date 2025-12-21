@@ -24,6 +24,7 @@
     "add:ui": "pnpm dlx shadcn@latest add"
   },
   "dependencies": {
+    "@auth/core": "^0.34.3",
     "@hookform/resolvers": "^5.2.2",
     "@payloadcms/db-postgres": "3.69.0",
     "@payloadcms/next": "3.69.0",

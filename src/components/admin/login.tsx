@@ -45,6 +45,15 @@ const styles = {
     color: '#dc2626',
     fontSize: '0.875rem',
   } satisfies CSSProperties,
+  success: {
+    backgroundColor: '#f0fdf4',
+    border: '1px solid #bbf7d0',
+    borderRadius: '6px',
+    padding: '0.75rem',
+    marginBottom: '1rem',
+    color: '#16a34a',
+    fontSize: '0.875rem',
+  } satisfies CSSProperties,
   button: {
     width: '100%',
     display: 'flex',
@@ -107,18 +116,34 @@ const styles = {
     outline: 'none',
     boxSizing: 'border-box',
   } satisfies CSSProperties,
+  toggleLink: {
+    display: 'block',
+    textAlign: 'center',
+    marginTop: '1rem',
+    fontSize: '0.875rem',
+    color: '#4f46e5',
+    cursor: 'pointer',
+    background: 'none',
+    border: 'none',
+    textDecoration: 'underline',
+  } satisfies CSSProperties,
 }
 
 export function CustomLoginForm() {
   const router = useRouter()
+  const [mode, setMode] = useState<'login' | 'register'>('login')
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
 
   async function handleEmailLogin(e: React.FormEvent) {
     e.preventDefault()
     setError('')
+    setSuccess('')
     setLoading(true)
 
     try {
@@ -143,33 +168,108 @@ export function CustomLoginForm() {
     }
   }
 
+  async function handleEmailRegister(e: React.FormEvent) {
+    e.preventDefault()
+    setError('')
+    setSuccess('')
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match')
+      return
+    }
+
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters')
+      return
+    }
+
+    setLoading(true)
+
+    try {
+      const res = await fetch('/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+        credentials: 'include',
+      })
+
+      if (res.ok) {
+        setSuccess('Account created! You can now sign in.')
+        setMode('login')
+        setPassword('')
+        setConfirmPassword('')
+      } else {
+        const data = await res.json()
+        setError(data.errors?.[0]?.message || 'Registration failed')
+      }
+    } catch {
+      setError('An error occurred. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  function toggleMode() {
+    setMode(mode === 'login' ? 'register' : 'login')
+    setError('')
+    setSuccess('')
+    setName('')
+    setPassword('')
+    setConfirmPassword('')
+  }
+
+  const isLogin = mode === 'login'
+
   return (
     <div style={styles.container}>
       <div style={styles.card}>
         <div style={styles.header}>
-          <h1 style={styles.title}>Admin Login</h1>
-          <p style={styles.description}>Sign in to access the admin panel</p>
+          <h1 style={styles.title}>{isLogin ? 'Admin Login' : 'Create Account'}</h1>
+          <p style={styles.description}>
+            {isLogin ? 'Sign in to access the admin panel' : 'Register for a new account'}
+          </p>
         </div>
 
         {error && <div style={styles.error}>{error}</div>}
+        {success && <div style={styles.success}>{success}</div>}
 
-        <form action={signInWithGitHub}>
-          <button
-            type="submit"
-            style={{ ...styles.button, ...styles.outlineButton }}
-          >
-            <Github style={{ width: 20, height: 20 }} />
-            Continue with GitHub
-          </button>
-        </form>
+        {isLogin && (
+          <>
+            <form action={signInWithGitHub}>
+              <button
+                type="submit"
+                style={{ ...styles.button, ...styles.outlineButton }}
+              >
+                <Github style={{ width: 20, height: 20 }} />
+                Continue with GitHub
+              </button>
+            </form>
 
-        <div style={styles.divider}>
-          <div style={styles.dividerLine} />
-          <span style={styles.dividerText}>or sign in with email</span>
-          <div style={styles.dividerLine} />
-        </div>
+            <div style={styles.divider}>
+              <div style={styles.dividerLine} />
+              <span style={styles.dividerText}>or sign in with email</span>
+              <div style={styles.dividerLine} />
+            </div>
+          </>
+        )}
 
-        <form onSubmit={handleEmailLogin}>
+        <form onSubmit={isLogin ? handleEmailLogin : handleEmailRegister}>
+          {!isLogin && (
+            <div style={styles.formGroup}>
+              <label htmlFor="name" style={styles.label}>
+                Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                style={styles.input}
+                required
+              />
+            </div>
+          )}
+
           <div style={styles.formGroup}>
             <label htmlFor="email" style={styles.label}>
               Email
@@ -195,8 +295,26 @@ export function CustomLoginForm() {
               onChange={(e) => setPassword(e.target.value)}
               style={styles.input}
               required
+              minLength={8}
             />
           </div>
+
+          {!isLogin && (
+            <div style={styles.formGroup}>
+              <label htmlFor="confirmPassword" style={styles.label}>
+                Confirm Password
+              </label>
+              <input
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                style={styles.input}
+                required
+                minLength={8}
+              />
+            </div>
+          )}
 
           <button
             type="submit"
@@ -207,9 +325,19 @@ export function CustomLoginForm() {
               ...(loading ? styles.disabledButton : {}),
             }}
           >
-            {loading ? 'Signing in...' : 'Sign in'}
+            {loading
+              ? isLogin
+                ? 'Signing in...'
+                : 'Creating account...'
+              : isLogin
+                ? 'Sign in'
+                : 'Create Account'}
           </button>
         </form>
+
+        <button type="button" onClick={toggleMode} style={styles.toggleLink}>
+          {isLogin ? "Don't have an account? Create one" : 'Already have an account? Sign in'}
+        </button>
       </div>
     </div>
   )
