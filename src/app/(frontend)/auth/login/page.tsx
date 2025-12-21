@@ -19,7 +19,7 @@ export default function LoginPage() {
     <div className="flex min-h-[60vh] items-center justify-center">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl">Sign in to DevTools</CardTitle>
+          <CardTitle className="text-3xl">Sign in to Hackerlab</CardTitle>
           <CardDescription>
             Access your developer tools and settings
           </CardDescription>

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import '../globals.css'
 import { AuthHeader, Footer } from '@/components/layout'
 import { Toaster } from '@/components/ui/sonner'
+import '../globals.css'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'DevTools - Developer Tools for Modern Workflows',
+  title: 'Hackerlab - Developer Tools for Modern Workflows',
   description:
     'Premium software tools built by developers, for developers. Streamline your development process.',
 }

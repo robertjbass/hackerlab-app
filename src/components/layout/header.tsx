@@ -22,7 +22,7 @@ export function Header({ user }: HeaderProps) {
         <div className="flex items-center gap-x-12">
           <Link href="/" className="flex items-center gap-2">
             <Terminal className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold text-foreground">DevTools</span>
+            <span className="text-xl font-bold text-foreground">Hackerlab</span>
           </Link>
           <div className="hidden lg:flex lg:gap-x-8">
             <Link
