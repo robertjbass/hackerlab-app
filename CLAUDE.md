@@ -2,6 +2,9 @@
 
 This file provides guidance to AI agents such as Claude Code (claude.ai/code) when working with code in this repository.
 
+## Package Management
+- Always use pnpm and pnpx, never npm and npx
+
 
 ## Conventions:
 Use the @ alias for src/ directory

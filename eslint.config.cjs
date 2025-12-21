@@ -25,6 +25,7 @@ module.exports = [
       'vitest.config.ts',
       'playwright-report/**',
       'test-results/**',
+      'scripts/**',
     ],
   },
   js.configs.recommended,
